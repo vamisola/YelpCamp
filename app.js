@@ -18,7 +18,7 @@ var commentRoutes       = require("./routes/comments"),
 
 mongoose.Promise = global.Promise;   
 
-mongoose.connect(process.env.databaseURL);
+mongoose.connect(process.env.DATABASEURL);
 //  mongoose.connect("mongodb://vamisola:amisolav@ds031167.mlab.com:31167/yelpcamp");
 
 
