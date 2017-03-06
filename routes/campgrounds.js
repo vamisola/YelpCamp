@@ -3,34 +3,39 @@ var router = express.Router();
 var Campground = require("../models/campground");
 var middleware = require("../middleware");
 
+// Define escapeRegex function for search feature
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 //INDEX - show all campgrounds
 router.get("/", function(req, res){
-    // eval(require('locus'));
-    // Get all campgrounds from DB
-      var noMatch = null;
-    if(req.query.search) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        Campground.find({name: regex}, function(err, allCampgrounds){
-            if(err){
-                console.log(err);
-            }else{
-              
-                if(allCampgrounds.length < 1){
-                    noMatch = "No campgrounds match that query, please try again.";
-                }
-                res.render("campgrounds/index", {campgrounds:allCampgrounds, noMatch: noMatch});
+  if(req.query.search && req.xhr) {
+      const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+      // Get all campgrounds from DB
+      Campground.find({name: regex}, function(err, allCampgrounds){
+         if(err){
+            console.log(err);
+         } else {
+            res.status(200).json(allCampgrounds);
+         }
+      });
+  } else {
+      // Get all campgrounds from DB
+      Campground.find({}, function(err, allCampgrounds){
+         if(err){
+             console.log(err);
+         } else {
+            if(req.xhr) {
+              res.json(allCampgrounds);
+            } else {
+              res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
             }
-        });
-    }else {
-        Campground.find({}, function(err, allCampgrounds){
-           if(err){
-               console.log(err);
-           } else {
-              res.render("campgrounds/index",{campgrounds:allCampgrounds, noMatch:noMatch});
-           }
-        });
-    }
+         }
+      });
+  }
 });
+
 
 //CREATE - add new campground to DB
 router.post("/", middleware.isLoggedIn, function(req, res){
