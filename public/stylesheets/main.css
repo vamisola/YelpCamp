@@ -24,6 +24,7 @@ body {
 /* Thumbnail styles */
 .thumbnail img {
     width: 100%;
+    height:300px;
 }
 
 .thumbnail {
@@ -49,4 +50,10 @@ body {
 .flex-wrap {
   display:flex;
   flex-wrap: wrap;
+}
+
+/* Google Maps */
+#map {
+    height: 400px;
+    width: 100%;
 }

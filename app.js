@@ -20,7 +20,7 @@ mongoose.Promise = global.Promise;
 
 // mongoose.connect(process.env.DATABASEURL);
 
-var url = process.env.DATABASEURL || "mongodb://localhost/yelpcamp_v10";
+var url = process.env.DATABASEURL || "mongodb://localhost/yelpcamp_final";
 mongoose.connect(url);
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -30,6 +30,9 @@ app.use(methodOverride("_method"));
 app.use(flash());
 
 //seedDB(); //seed the database
+
+app.locals.moment = require('moment');
+
 
 //Passport configuration
 app.use(require("express-session")({

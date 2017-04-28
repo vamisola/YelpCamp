@@ -12,18 +12,40 @@
                 <div class="form-group">
                   <input type="text" name="search" placeholder="Campground search..." class="form-control">
                 </div>
+                <div>
+					<input class="myCheckbox" name="tags[]" type="checkbox" value="Mountain">
+						Mountain
+					<input class = myCheckbox name="tags[]" type="checkbox" value="River">
+						River
+					<input class="myCheckbox" name="tags[]" type="checkbox" value="Lake">
+						Lake
+					<input class = myCheckbox name="tags[]" type="checkbox" value="Beach">
+						Beach
+                
+			    </div>
+			    <p>There are <span id="length"><%= length %></span> campgrounds.</p>
               </form>
              </p>
          </div>
      </header>
      
      <div class="row text-center flex-wrap" id="campground-grid">
+        
         <% campgrounds.forEach(function(campground){ %>
             <div class="col-md-3 col-sm-6">
                 <div class="thumbnail">
-                   <img src="<%= campground.image %>">
+                    <img src="<%= campground.images%>">
                    <div class="caption">
                        <h4><%= campground.name %></h4>
+                   </div>
+                   <div class="caption">
+                    Tags:
+                        <h6>
+                        <% campground.tags.forEach(function(tag, i, arr) { %>
+                        <a><%= tag %></a><% if(i !== arr.length - 1) { %>, <% } %>
+                        <% }) %>
+                    </h6>
+                       
                    </div>
                    <p>
                        <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More Info</a>
@@ -31,6 +53,7 @@
                 </div>
             </div>
         <% }); %>
+       
     </div>
 
 <% include ../partials/footer %>
